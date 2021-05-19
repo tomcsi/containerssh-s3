@@ -1,10 +1,13 @@
+FROM containerssh/agent AS agent
+
 FROM alpine:3.3
+COPY --from=agent /usr/bin/containerssh-agent /usr/bin/containerssh-agent
 
 ENV MNT_POINT /var/s3fs
 
 ARG S3FS_VERSION=v1.86
 
-RUN apk --update --no-cache add fuse alpine-sdk automake autoconf libxml2-dev fuse-dev curl-dev git bash; \
+RUN apk --update --no-cache add fuse alpine-sdk automake autoconf libxml2-dev fuse-dev curl-dev git bash openssh-sftp-server; \
     git clone https://github.com/s3fs-fuse/s3fs-fuse.git; \
     cd s3fs-fuse; \
     git checkout tags/${S3FS_VERSION}; \
