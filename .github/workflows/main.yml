@@ -2,7 +2,7 @@ name: ContainerSSH S3 guest image
 
 on:
   push:
-    branchers: [ master ]:
+    branches: [ master ]:
 
 jobs:
   build:
