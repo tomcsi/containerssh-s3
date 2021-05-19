@@ -25,3 +25,4 @@ jobs:
           tags: |
             docker.pkg.github.com/${{ github.repository }}/containerssh-s3:${{ github.sha }}
             docker.pkg.github.com/${{ github.repository }}/containerssh-s3:${{ github.ref }}
+
