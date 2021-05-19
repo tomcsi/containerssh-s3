@@ -2,17 +2,26 @@ name: ContainerSSH S3 guest image
 
 on:
   release:
-    types: [created]
+    types: [published]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
     steps:
       - uses: actions/checkout@v2
-      - name: Build and Publish head Docker image
-        uses: VaultVulp/gp-docker-action@1.1.8
+      - name: Log in to GitHub Docker Registry
+        uses: docker/login-action@v1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }} # Provide GITHUB_TOKEN to login into the GitHub Packages
-          image-name: my-cool-service # Provide Docker image name
-          image-tag: head # Provide Docker image tag
-
+          registry: docker.pkg.github.com
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build container image
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: |
+            docker.pkg.github.com/${{ github.repository }}/containerssh-s3:${{ github.sha }}
+            docker.pkg.github.com/${{ github.repository }}/containerssh-s3:${{ github.ref }}
