@@ -3,7 +3,7 @@ FROM containerssh/agent AS agent
 FROM alpine
 COPY --from=agent /usr/bin/containerssh-agent /usr/bin/containerssh-agent
 
-RUN apk --update --no-cache add openssh-sftp-server; \
+RUN apk --update --no-cache add openssh-sftp-server bash; \
     rm -rf /var/cache/apk/*;
 
 CMD ["/bin/bash"]
